@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Form Order</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    h2 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Form Order</h2>
+  <form id="orderForm">
+    <input type="text" name="nama" placeholder="Nama Lengkap" required />
+    <textarea name="alamat" placeholder="Alamat Lengkap" required></textarea>
+    <input type="text" name="nowa" placeholder="Nomor WhatsApp (08xxx)" required />
+    <input type="text" name="pesanan" placeholder="Pesanan / Produk" required />
+    <button type="submit">Kirim Pesanan</button>
+  </form>
+
+  <script>
+    document.getElementById("orderForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        nama: form.nama.value,
+        alamat: form.alamat.value,
+        nowa: form.nowa.value,
+        pesanan: form.pesanan.value
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbyX5p03klPKzSt6NtHeOS_pGyrLB6-9g6WnXLjHT4m1BVTRY7GfiLf8_vgRFA3w2zw2wg/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => res.text())
+      .then(() => {
+        const nomor = data.nowa.replace(/^0/, "62");
+        const pesanWA = `Halo ${data.nama}, pesanan ${data.pesanan} sudah kami terima. Kami akan segera proses.`;
+        window.location.href = `https://wa.me/${nomor}?text=${encodeURIComponent(pesanWA)}`;
+      })
+      .catch(err => {
+        alert("Gagal mengirim data. Silakan coba lagi.");
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html>
