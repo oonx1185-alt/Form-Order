@@ -67,7 +67,7 @@
       .then(() => {
         const nomor = data.nowa.replace(/^0/, "62");
         const pesanWA = `Halo ${data.nama}, pesanan ${data.pesanan} sudah kami terima. Kami akan segera proses.`;
-        window.location.href = `https://wa.me/${nomor}?text=${encodeURIComponent(pesanWA)}`;
+        window.location.href = `https://wa.me/0895393988880?text=${encodeURIComponent(pesanWA)}`;
       })
       .catch(err => {
         alert("Gagal mengirim data. Silakan coba lagi.");
